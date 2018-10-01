@@ -1,0 +1,29 @@
+{{- if .Values.istio.routingEnabled }}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ template "fullname" $ }}
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - {{ template "fullname" $ }}-gateway
+  http:
+  - match:
+    route:
+    - destination:
+        host: {{ .Values.istio.canary.blue.name }}
+        port:
+          number: {{ .Values.istio.canary.blue.port }}
+      weight: {{ .Values.istio.canary.blue.weight }}
+    - destination:
+        host: {{ .Values.istio.canary.green.name }}
+        port:
+          number: {{ .Values.istio.canary.green.port }}
+      weight: {{ .Values.istio.canary.green.weight }}
+{{- end }}
+
+# need to add in support for DNS and HTTPS
+#{{- range .Values.ingress.hosts }}
+#  - {{ .name }}
+#  {{- end }}

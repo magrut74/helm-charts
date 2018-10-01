@@ -9,10 +9,21 @@ image: bitnami/wordpress:4.9.8
 ## more on line 193 under "persistence"
 replicaCount: 3
 
-## enable istio sidecar
+## enable istio support for canary deployments
 ## ref: https://istio.io/docs/setup/kubernetes/sidecar-injection/#configuration-options
-istioSidecar:
-  enabled: false
+istio:
+  sidecarEnabled: true
+  routingEnabled: false
+  # name your blue/green services below and enter weight for traffic routing
+  # canary:
+  #   blue:
+  #     name: 
+  #     port: 80
+  #     weight: 100
+  #   green:
+  #     name:
+  #     port: 80
+  #     weight: 0
 
 ## Specify a imagePullPolicy
 ## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images

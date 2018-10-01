@@ -19,8 +19,11 @@ spec:
         app: {{ template "fullname" . }}
         chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
         release: "{{ .Release.Name }}"
+        {{- if .Values.istio.sidecarEnabled }}
+        version: "{{ .Values.istio.version }}"
+        {{- end }}
       annotations:
-        sidecar.istio.io/inject: "{{ default "false" .Values.istioSidecar.enabled }}"
+        sidecar.istio.io/inject: "{{ default "false" .Values.istio.sidecarEnabled }}"
     spec:
       containers:
       - name: {{ template "fullname" . }}
